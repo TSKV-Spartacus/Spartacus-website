@@ -19,38 +19,37 @@ interface Props {
 
 // Default props
 const { 
-  title = "BOARD OF DIRECTORS",
+  title = "CURRENT BOARD (2025-2026)",
   description = "T.S.K.V. Spartacus is entirely student-led, with a dedicated board and volunteers who work tirelessly to create the best experience for our members.",
   boardMembers = [
     {
-      name: "Merel van Buren",
+      name: "Aras",
       role: "Chair",
       email: "Chair@tskvspartacus.nl",
-      image: "/images/Board_1.png"
+      image: "/images/26-Chair.png"
     },
     {
-      name: "Jelle Smitss",
+      name: "Yourick Eppenberger",
       role: "Vice Chair",
       email: "Vice-chair@tskvspartacus.nl",
-      image: "/images/Board_2.png"
+      image: "/images/26-Vice-Chair.png"
     },
     {
-      name: "Herman Skledar",
-      role: "Treasurer",
-      email: "Treasurer@tskvspartacus.nl",
-      image: "/images/Board_3.png"
-    },
-    {
-      name: "Aras",
+      name: "Sebastiyan Kalabalakov",
       role: "Secretary",
       email: "Secretary@tskvspartacus.nl",
-      image: "/images/Board_4.png"
+      image: "/images/26-Secretary.png"
+    },
+    {
+      name: "Nikolas Trouvain",
+      role: "Treasurer",
+      email: "Treasurer@tskvspartacus.nl",
+      image: "/images/26-Treasurer.png"
     }
   ]
 } = Astro.props;
 ---
 
-<!-- Board Section -->
 <section class="section board-section">
   <h2 class="section-title">{title}</h2>
   <p>{description}</p>
