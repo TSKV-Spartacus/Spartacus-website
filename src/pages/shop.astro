@@ -1,0 +1,209 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/pages/shop.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <BaseHead title="Shop - T.S.K.V. Spartacus" description="Official T.S.K.V. Spartacus merchandise. Get your Spartacus gear today!" />
+</head>
+
+<body>
+    <Header />
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Spartacus Shop</h1>
+            <h2>Official Merchandise</h2>
+        </div>
+    </section>
+
+    <!-- Status Banner (shown after checkout) -->
+    <div id="status-banner" class="status-banner hidden"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <section class="section">
+                <h2 class="section-title centered-title">Our Merchandise</h2>
+                <p class="shop-intro text-center">Rep Spartacus at the gym and beyond. All items are &euro;5.00 each.</p>
+
+                <div class="product-grid">
+                    <!-- Product 1: T-Shirt -->
+                    <div class="product-card" data-product-id="spartacus-tshirt">
+                        <div class="product-image">
+                            <i class="fas fa-tshirt product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus T-Shirt</h3>
+                            <p class="product-description">Official T.S.K.V. Spartacus t-shirt. Comfortable and stylish for training or casual wear.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-tshirt">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Stringer -->
+                    <div class="product-card" data-product-id="spartacus-stringer">
+                        <div class="product-image">
+                            <i class="fas fa-vest product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus Stringer</h3>
+                            <p class="product-description">Show off your gains with the official Spartacus stringer. Perfect for training days.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-stringer">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Shaker -->
+                    <div class="product-card" data-product-id="spartacus-shaker">
+                        <div class="product-image">
+                            <i class="fas fa-blender product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus Shaker</h3>
+                            <p class="product-description">Mix your protein in style. Durable shaker bottle with the Spartacus logo.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-shaker">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4: Wristbands -->
+                    <div class="product-card" data-product-id="spartacus-wristband">
+                        <div class="product-image">
+                            <i class="fas fa-hand-fist product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus Wristbands</h3>
+                            <p class="product-description">Branded wristbands (pair) to keep your grip dry and represent Spartacus.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-wristband">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 5: Hoodie -->
+                    <div class="product-card" data-product-id="spartacus-hoodie">
+                        <div class="product-image">
+                            <i class="fas fa-shirt product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus Hoodie</h3>
+                            <p class="product-description">Stay warm between sets. Premium hoodie with embroidered Spartacus logo.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-hoodie">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 6: Gym Bag -->
+                    <div class="product-card" data-product-id="spartacus-bag">
+                        <div class="product-image">
+                            <i class="fas fa-bag-shopping product-icon"></i>
+                        </div>
+                        <div class="product-info">
+                            <h3>Spartacus Gym Bag</h3>
+                            <p class="product-description">Carry your gear in the official Spartacus gym bag. Spacious and durable.</p>
+                            <div class="product-price">&euro;5.00</div>
+                            <button class="btn buy-btn" data-product-id="spartacus-bag">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info Section -->
+            <section class="section text-center">
+                <h2 class="section-title centered-title">How It Works</h2>
+                <div class="shop-steps">
+                    <div class="shop-step">
+                        <div class="step-icon"><i class="fas fa-mouse-pointer"></i></div>
+                        <h3>1. Choose</h3>
+                        <p>Pick your favourite Spartacus merchandise from our collection.</p>
+                    </div>
+                    <div class="shop-step">
+                        <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+                        <h3>2. Pay</h3>
+                        <p>Securely pay with card or iDEAL through Stripe checkout.</p>
+                    </div>
+                    <div class="shop-step">
+                        <div class="step-icon"><i class="fas fa-box-open"></i></div>
+                        <h3>3. Collect</h3>
+                        <p>Pick up your items at the next Spartacus training or event.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <Footer />
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show status banner if redirected from Stripe
+            const params = new URLSearchParams(window.location.search);
+            const status = params.get('status');
+            const banner = document.getElementById('status-banner');
+
+            if (status === 'success') {
+                banner.textContent = 'Payment successful! You can collect your item at the next training or event.';
+                banner.classList.remove('hidden');
+                banner.classList.add('status-success');
+                // Clean URL
+                window.history.replaceState({}, '', '/shop');
+            } else if (status === 'cancelled') {
+                banner.textContent = 'Payment was cancelled. Feel free to try again!';
+                banner.classList.remove('hidden');
+                banner.classList.add('status-cancelled');
+                window.history.replaceState({}, '', '/shop');
+            }
+
+            // Handle buy buttons
+            document.querySelectorAll('.buy-btn').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const productId = e.currentTarget.dataset.productId;
+                    const btn = e.currentTarget;
+
+                    // Disable button during request
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+                    try {
+                        const response = await fetch('/api/create-checkout-session', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ productId, quantity: 1 }),
+                        });
+
+                        const data = await response.json();
+
+                        if (data.url) {
+                            window.location.href = data.url;
+                        } else {
+                            throw new Error(data.error || 'Something went wrong');
+                        }
+                    } catch (error) {
+                        alert(error.message || 'Failed to start checkout. Please try again.');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Buy Now';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
