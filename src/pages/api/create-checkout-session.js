@@ -62,30 +62,43 @@ export async function POST({ request, locals }) {
 
   try {
     const body = await request.json();
-    const { productId, quantity = 1 } = body;
+    const { items } = body;
 
-    const product = PRODUCTS[productId];
-    if (!product) {
+    if (!items || !Array.isArray(items) || items.length === 0) {
       return new Response(
-        JSON.stringify({ error: 'Invalid product' }),
+        JSON.stringify({ error: 'Cart is empty' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
     const origin = new URL(request.url).origin;
 
-    // Call Stripe REST API directly with fetch
     const params = new URLSearchParams();
     params.append('payment_method_types[]', 'card');
     params.append('payment_method_types[]', 'ideal');
-    params.append('line_items[0][price_data][currency]', product.currency);
-    params.append('line_items[0][price_data][product_data][name]', product.name);
-    params.append('line_items[0][price_data][product_data][description]', product.description);
-    params.append('line_items[0][price_data][unit_amount]', String(product.price));
-    params.append('line_items[0][quantity]', String(quantity));
     params.append('mode', 'payment');
     params.append('success_url', `${origin}/shop?status=success`);
     params.append('cancel_url', `${origin}/shop?status=cancelled`);
+
+    let lineIndex = 0;
+    for (const item of items) {
+      const product = PRODUCTS[item.productId];
+      if (!product) continue;
+
+      params.append(`line_items[${lineIndex}][price_data][currency]`, product.currency);
+      params.append(`line_items[${lineIndex}][price_data][product_data][name]`, product.name);
+      params.append(`line_items[${lineIndex}][price_data][product_data][description]`, product.description);
+      params.append(`line_items[${lineIndex}][price_data][unit_amount]`, String(product.price));
+      params.append(`line_items[${lineIndex}][quantity]`, String(item.quantity || 1));
+      lineIndex++;
+    }
+
+    if (lineIndex === 0) {
+      return new Response(
+        JSON.stringify({ error: 'No valid products in cart' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
     const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
