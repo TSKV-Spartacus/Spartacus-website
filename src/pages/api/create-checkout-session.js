@@ -5,6 +5,9 @@
 // Required environment variable (set in Cloudflare Workers dashboard):
 //   STRIPE_SECRET_KEY - Your Stripe secret key (sk_test_... or sk_live_...)
 
+// Ensure this endpoint runs server-side, not prerendered
+export const prerender = false;
+
 // Product catalog - update prices (in cents) and details as needed
 const PRODUCTS = {
   'spartacus-tshirt': {

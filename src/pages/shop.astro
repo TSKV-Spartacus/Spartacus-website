@@ -189,7 +189,17 @@ import '../styles/pages/shop.css';
                             body: JSON.stringify({ productId, quantity: 1 }),
                         });
 
-                        const data = await response.json();
+                        const text = await response.text();
+                        if (!text) {
+                            throw new Error('Server returned an empty response (status ' + response.status + '). The API route may not be deployed correctly.');
+                        }
+
+                        let data;
+                        try {
+                            data = JSON.parse(text);
+                        } catch (parseErr) {
+                            throw new Error('Server returned invalid JSON (status ' + response.status + '): ' + text.substring(0, 200));
+                        }
 
                         if (data.url) {
                             window.location.href = data.url;
