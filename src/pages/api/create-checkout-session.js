@@ -1,10 +1,9 @@
 // src/pages/api/create-checkout-session.js
-// Stripe Checkout Session creation endpoint
+// Stripe Checkout Session creation endpoint using the Stripe REST API directly
+// (no npm dependency needed — works on Cloudflare Workers without bundling issues)
 //
-// Required environment variable (set in Cloudflare Workers dashboard or wrangler.json):
+// Required environment variable (set in Cloudflare Workers dashboard):
 //   STRIPE_SECRET_KEY - Your Stripe secret key (sk_test_... or sk_live_...)
-
-import Stripe from 'stripe';
 
 // Product catalog - update prices (in cents) and details as needed
 const PRODUCTS = {
@@ -47,8 +46,6 @@ const PRODUCTS = {
 };
 
 export async function POST({ request, locals }) {
-  // STRIPE_SECRET_KEY should be set as an environment variable in Cloudflare
-  // For local dev, you can set it in a .dev.vars file
   const stripeSecretKey = locals?.runtime?.env?.STRIPE_SECRET_KEY || import.meta.env.STRIPE_SECRET_KEY;
 
   if (!stripeSecretKey) {
@@ -59,8 +56,6 @@ export async function POST({ request, locals }) {
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
-  const stripe = new Stripe(stripeSecretKey);
 
   try {
     const body = await request.json();
@@ -76,25 +71,37 @@ export async function POST({ request, locals }) {
 
     const origin = new URL(request.url).origin;
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'ideal'],
-      line_items: [
-        {
-          price_data: {
-            currency: product.currency,
-            product_data: {
-              name: product.name,
-              description: product.description,
-            },
-            unit_amount: product.price,
-          },
-          quantity: quantity,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${origin}/shop?status=success`,
-      cancel_url: `${origin}/shop?status=cancelled`,
+    // Call Stripe REST API directly with fetch
+    const params = new URLSearchParams();
+    params.append('payment_method_types[]', 'card');
+    params.append('payment_method_types[]', 'ideal');
+    params.append('line_items[0][price_data][currency]', product.currency);
+    params.append('line_items[0][price_data][product_data][name]', product.name);
+    params.append('line_items[0][price_data][product_data][description]', product.description);
+    params.append('line_items[0][price_data][unit_amount]', String(product.price));
+    params.append('line_items[0][quantity]', String(quantity));
+    params.append('mode', 'payment');
+    params.append('success_url', `${origin}/shop?status=success`);
+    params.append('cancel_url', `${origin}/shop?status=cancelled`);
+
+    const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${stripeSecretKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
     });
+
+    const session = await stripeResponse.json();
+
+    if (!stripeResponse.ok) {
+      console.error('Stripe API error:', session);
+      return new Response(
+        JSON.stringify({ error: session.error?.message || 'Stripe error' }),
+        { status: stripeResponse.status, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
     return new Response(
       JSON.stringify({ url: session.url }),
