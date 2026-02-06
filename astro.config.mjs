@@ -12,5 +12,10 @@ export default defineConfig({
     platformProxy: {
       enabled: true,
     },
-  })
+  }),
+  vite: {
+    ssr: {
+      external: ['stripe'],
+    },
+  },
 });
