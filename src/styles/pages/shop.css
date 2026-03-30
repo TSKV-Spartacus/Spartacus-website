@@ -230,6 +230,28 @@
     transform: none;
 }
 
+/* ========== EXCLUSIVE PRODUCT ========== */
+.product-card--exclusive {
+    border-top-color: var(--spartacus-burgundy);
+    opacity: 0.9;
+}
+
+.exclusive-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--spartacus-burgundy);
+    color: var(--spartacus-yellow);
+    font-size: var(--font-size-xs, 11px);
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
+    padding: 5px 10px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--space-4);
+    text-transform: uppercase;
+}
+
 /* ========== FLOATING CART BUTTON ========== */
 .cart-floating-btn {
     position: fixed;
