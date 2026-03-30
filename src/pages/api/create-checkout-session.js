@@ -76,6 +76,54 @@ const PRODUCTS = {
     price: 500,
     currency: 'eur',
   },
+  'tanktop-men-black': {
+    name: 'Tank Top Men (Black)',
+    description: 'Official T.S.K.V. Spartacus Men\'s Tank Top in Black',
+    price: 500,
+    currency: 'eur',
+  },
+  'tanktop-men-red': {
+    name: 'Tank Top Men (Red)',
+    description: 'Official T.S.K.V. Spartacus Men\'s Tank Top in Red',
+    price: 500,
+    currency: 'eur',
+  },
+  'tanktop-men-white': {
+    name: 'Tank Top Men (White)',
+    description: 'Official T.S.K.V. Spartacus Men\'s Tank Top in White',
+    price: 500,
+    currency: 'eur',
+  },
+  'tanktop-women-black': {
+    name: 'Tank Top Women (Black)',
+    description: 'Official T.S.K.V. Spartacus Women\'s Tank Top in Black',
+    price: 500,
+    currency: 'eur',
+  },
+  'tanktop-women-red': {
+    name: 'Tank Top Women (Red)',
+    description: 'Official T.S.K.V. Spartacus Women\'s Tank Top in Red',
+    price: 500,
+    currency: 'eur',
+  },
+  'tanktop-women-white': {
+    name: 'Tank Top Women (White)',
+    description: 'Official T.S.K.V. Spartacus Women\'s Tank Top in White',
+    price: 500,
+    currency: 'eur',
+  },
+  'varsity-jacket': {
+    name: 'Varsity Jacket',
+    description: 'Official T.S.K.V. Spartacus Varsity Jacket',
+    price: 500,
+    currency: 'eur',
+  },
+  'powerlifting-team-shirt': {
+    name: 'Powerlifting Team Shirt',
+    description: 'Official T.S.K.V. Spartacus Powerlifting Team Shirt',
+    price: 500,
+    currency: 'eur',
+  },
 };
 
 export async function POST({ request, locals }) {
