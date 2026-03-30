@@ -10,39 +10,69 @@ export const prerender = false;
 
 // Product catalog - update prices (in cents) and details as needed
 const PRODUCTS = {
-  'spartacus-tshirt': {
-    name: 'Spartacus T-Shirt',
-    description: 'Official T.S.K.V. Spartacus t-shirt',
-    price: 500, // €5.00 in cents
+  'classic-powerlifting-shirt-black': {
+    name: 'Classic Powerlifting Shirt (Black)',
+    description: 'Official T.S.K.V. Spartacus Classic Powerlifting Shirt in Black',
+    price: 500, // TODO: update price
     currency: 'eur',
   },
-  'spartacus-stringer': {
-    name: 'Spartacus Stringer',
-    description: 'Official T.S.K.V. Spartacus stringer',
+  'classic-powerlifting-shirt-red': {
+    name: 'Classic Powerlifting Shirt (Red)',
+    description: 'Official T.S.K.V. Spartacus Classic Powerlifting Shirt in Red',
     price: 500,
     currency: 'eur',
   },
-  'spartacus-shaker': {
-    name: 'Spartacus Shaker',
-    description: 'Official T.S.K.V. Spartacus shaker bottle',
+  'classic-powerlifting-shirt-white': {
+    name: 'Classic Powerlifting Shirt (White)',
+    description: 'Official T.S.K.V. Spartacus Classic Powerlifting Shirt in White',
     price: 500,
     currency: 'eur',
   },
-  'spartacus-wristband': {
-    name: 'Spartacus Wristbands',
-    description: 'Official T.S.K.V. Spartacus wristbands (pair)',
+  'competition-shirt-black': {
+    name: 'Competition Shirt (Black)',
+    description: 'Official T.S.K.V. Spartacus Competition Shirt in Black',
     price: 500,
     currency: 'eur',
   },
-  'spartacus-hoodie': {
-    name: 'Spartacus Hoodie',
-    description: 'Official T.S.K.V. Spartacus hoodie',
+  'competition-shirt-red': {
+    name: 'Competition Shirt (Red)',
+    description: 'Official T.S.K.V. Spartacus Competition Shirt in Red',
     price: 500,
     currency: 'eur',
   },
-  'spartacus-bag': {
-    name: 'Spartacus Gym Bag',
-    description: 'Official T.S.K.V. Spartacus gym bag',
+  'competition-shirt-white': {
+    name: 'Competition Shirt (White)',
+    description: 'Official T.S.K.V. Spartacus Competition Shirt in White',
+    price: 500,
+    currency: 'eur',
+  },
+  'hoodie-zip-black': {
+    name: 'Hoodie with Zip (Black)',
+    description: 'Official T.S.K.V. Spartacus Zip Hoodie in Black',
+    price: 500,
+    currency: 'eur',
+  },
+  'hoodie-zip-burgundy': {
+    name: 'Hoodie with Zip (Burgundy)',
+    description: 'Official T.S.K.V. Spartacus Zip Hoodie in Burgundy',
+    price: 500,
+    currency: 'eur',
+  },
+  'joggers-red': {
+    name: 'Joggers (Red)',
+    description: 'Official T.S.K.V. Spartacus Joggers in Red',
+    price: 500,
+    currency: 'eur',
+  },
+  'joggers-white': {
+    name: 'Joggers (White)',
+    description: 'Official T.S.K.V. Spartacus Joggers in White',
+    price: 500,
+    currency: 'eur',
+  },
+  'shorts-black': {
+    name: 'Shorts (Black)',
+    description: 'Official T.S.K.V. Spartacus Shorts in Black',
     price: 500,
     currency: 'eur',
   },
