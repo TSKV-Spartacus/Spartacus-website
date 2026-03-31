@@ -158,7 +158,7 @@ export async function POST({ request, locals }) {
       if (!product) continue;
 
       params.append(`line_items[${lineIndex}][price_data][currency]`, product.currency);
-      params.append(`line_items[${lineIndex}][price_data][product_data][name]`, product.name);
+      params.append(`line_items[${lineIndex}][price_data][product_data][name]`, item.displayName || product.name);
       params.append(`line_items[${lineIndex}][price_data][product_data][description]`, product.description);
       params.append(`line_items[${lineIndex}][price_data][unit_amount]`, String(product.price));
       params.append(`line_items[${lineIndex}][quantity]`, String(item.quantity || 1));
