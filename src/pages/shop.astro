@@ -13,23 +13,7 @@ import '../styles/pages/shop.css';
 </head>
 
 <body>
-    <!-- Password Gate -->
-    <div id="password-gate" class="password-gate">
-        <div class="password-box">
-            <img src="/images/spartacus-logo.png" alt="Spartacus Logo" class="password-logo">
-            <h2>Spartacus Shop</h2>
-            <p>This shop is currently in preview. Enter the password to continue.</p>
-            <form id="password-form">
-                <input type="password" id="password-input" placeholder="Enter password" autocomplete="off" />
-                <button type="submit" class="btn">Enter Shop</button>
-            </form>
-            <p id="password-error" class="password-error hidden">Incorrect password. Try again.</p>
-        </div>
-    </div>
-
-    <!-- Shop Content (hidden until password entered) -->
-    <div id="shop-content" class="hidden">
-        <Header />
+    <Header />
 
         <!-- Hero Section -->
         <section class="hero">
@@ -303,41 +287,9 @@ import '../styles/pages/shop.css';
         </main>
 
         <Footer />
-    </div>
 
     <script is:inline>
         document.addEventListener('DOMContentLoaded', () => {
-            // ========== PASSWORD PROTECTION ==========
-            // Change this password to whatever you want
-            const SHOP_PASSWORD = 'spartacus2025';
-            const STORAGE_KEY = 'spartacus_shop_access';
-
-            const gate = document.getElementById('password-gate');
-            const shopContent = document.getElementById('shop-content');
-            const passwordForm = document.getElementById('password-form');
-            const passwordInput = document.getElementById('password-input');
-            const passwordError = document.getElementById('password-error');
-
-            // Check if already authenticated this session
-            if (sessionStorage.getItem(STORAGE_KEY) === 'granted') {
-                gate.classList.add('hidden');
-                shopContent.classList.remove('hidden');
-            }
-
-            passwordForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (passwordInput.value === SHOP_PASSWORD) {
-                    sessionStorage.setItem(STORAGE_KEY, 'granted');
-                    gate.classList.add('hidden');
-                    shopContent.classList.remove('hidden');
-                    passwordError.classList.add('hidden');
-                } else {
-                    passwordError.classList.remove('hidden');
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                }
-            });
-
             // ========== SHOPPING CART ==========
             let cart = [];
 
