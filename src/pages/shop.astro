@@ -81,6 +81,14 @@ import '../styles/pages/shop.css';
                                     </div>
                                 </div>
                                 <div class="size-selector">
+                                    <label class="size-label">Fit:</label>
+                                    <select class="fit-select" aria-label="Select fit">
+                                        <option value="">Select fit</option>
+                                        <option value="Men's">Men's</option>
+                                        <option value="Women's">Women's</option>
+                                    </select>
+                                </div>
+                                <div class="size-selector">
                                     <label class="size-label">Size:</label>
                                     <select class="size-select" aria-label="Select size">
                                         <option value="">Select size</option>
@@ -116,6 +124,14 @@ import '../styles/pages/shop.css';
                                         <button class="color-swatch" data-color="red" data-color-name="Red" data-img="/images/Competition%20shirt_red.jpg" style="background:#cc1111" aria-label="Red"></button>
                                         <button class="color-swatch white-swatch" data-color="white" data-color-name="White" data-img="/images/Competition%20shirt_white.jpg" style="background:#ffffff" aria-label="White"></button>
                                     </div>
+                                </div>
+                                <div class="size-selector">
+                                    <label class="size-label">Fit:</label>
+                                    <select class="fit-select" aria-label="Select fit">
+                                        <option value="">Select fit</option>
+                                        <option value="Men's">Men's</option>
+                                        <option value="Women's">Women's</option>
+                                    </select>
                                 </div>
                                 <div class="size-selector">
                                     <label class="size-label">Size:</label>
@@ -543,8 +559,17 @@ import '../styles/pages/shop.css';
                     const card = button.closest('.product-card');
                     const baseId = card && card.dataset.baseId;
                     const activeSwatch = card && card.querySelector('.color-swatch.active');
+                    const fitSelect = card && card.querySelector('.fit-select');
+                    const fit = fitSelect ? fitSelect.value : '';
                     const sizeSelect = card && card.querySelector('.size-select');
                     const size = sizeSelect ? sizeSelect.value : '';
+
+                    if (fitSelect && !fit) {
+                        fitSelect.classList.add('size-error');
+                        fitSelect.focus();
+                        return;
+                    }
+                    if (fitSelect) fitSelect.classList.remove('size-error');
 
                     if (sizeSelect && !size) {
                         sizeSelect.classList.add('size-error');
@@ -564,10 +589,11 @@ import '../styles/pages/shop.css';
                         name = button.dataset.productName;
                     }
 
+                    if (fit) name += ` \u2014 ${fit}`;
                     if (size) name += ` \u2014 Size ${size}`;
 
                     const price = button.dataset.productPrice;
-                    const cartKey = size ? `${productId}__${size}` : productId;
+                    const cartKey = `${productId}__${fit}__${size}`;
 
                     const existing = cart.find(i => i.cartKey === cartKey);
                     if (existing) {
