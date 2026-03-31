@@ -138,10 +138,15 @@ import '../styles/pages/shop.css';
 
                         <!-- Hoodie with Zip -->
                         <div class="product-card" data-base-id="hoodie-zip">
-                            <div class="product-image-wrap">
-                                <img src="/images/Hoodie%20with%20Zip_black%20front.jpg"
-                                     alt="Hoodie with Zip"
-                                     class="product-img">
+                            <div class="product-image-wrap has-slider">
+                                <img src="/images/Hoodie%20with%20Zip_black%20front.jpg" alt="Hoodie with Zip front" class="product-img slide-img active">
+                                <img src="/images/Hoodie%20with%20Zip_black%20back.jpg" alt="Hoodie with Zip back" class="product-img slide-img">
+                                <button class="slide-btn prev" aria-label="Previous image">&#8249;</button>
+                                <button class="slide-btn next" aria-label="Next image">&#8250;</button>
+                                <div class="slide-dots">
+                                    <button class="dot active" data-idx="0" aria-label="Front view"></button>
+                                    <button class="dot" data-idx="1" aria-label="Back view"></button>
+                                </div>
                             </div>
                             <div class="product-info">
                                 <h3>Hoodie with Zip</h3>
@@ -149,8 +154,8 @@ import '../styles/pages/shop.css';
                                 <div class="color-selector">
                                     <span class="color-label">Color: <strong class="selected-color-name">Black</strong></span>
                                     <div class="color-swatches">
-                                        <button class="color-swatch active" data-color="black" data-color-name="Black" data-img="/images/Hoodie%20with%20Zip_black%20front.jpg" style="background:#1c1c1c" aria-label="Black"></button>
-                                        <button class="color-swatch" data-color="burgundy" data-color-name="Burgundy" data-img="/images/Hoodie%20with%20Zip_burgunday%20front.jpg" style="background:#6b0f1a" aria-label="Burgundy"></button>
+                                        <button class="color-swatch active" data-color="black" data-color-name="Black" data-img-front="/images/Hoodie%20with%20Zip_black%20front.jpg" data-img-back="/images/Hoodie%20with%20Zip_black%20back.jpg" style="background:#1c1c1c" aria-label="Black"></button>
+                                        <button class="color-swatch" data-color="burgundy" data-color-name="Burgundy" data-img-front="/images/Hoodie%20with%20Zip_burgunday%20front.jpg" data-img-back="/images/Hoodie%20with%20Zip_burgundy%20back.jpg" style="background:#6b0f1a" aria-label="Burgundy"></button>
                                     </div>
                                 </div>
                                 <div class="size-selector">
@@ -174,10 +179,15 @@ import '../styles/pages/shop.css';
 
                         <!-- Joggers -->
                         <div class="product-card" data-base-id="joggers">
-                            <div class="product-image-wrap">
-                                <img src="/images/Joggers_red%20front.jpg"
-                                     alt="Joggers"
-                                     class="product-img">
+                            <div class="product-image-wrap has-slider">
+                                <img src="/images/Joggers_red%20front.jpg" alt="Joggers front" class="product-img slide-img active">
+                                <img src="/images/Joggers_red%20back.jpg" alt="Joggers back" class="product-img slide-img">
+                                <button class="slide-btn prev" aria-label="Previous image">&#8249;</button>
+                                <button class="slide-btn next" aria-label="Next image">&#8250;</button>
+                                <div class="slide-dots">
+                                    <button class="dot active" data-idx="0" aria-label="Front view"></button>
+                                    <button class="dot" data-idx="1" aria-label="Back view"></button>
+                                </div>
                             </div>
                             <div class="product-info">
                                 <h3>Joggers</h3>
@@ -185,8 +195,8 @@ import '../styles/pages/shop.css';
                                 <div class="color-selector">
                                     <span class="color-label">Color: <strong class="selected-color-name">Red</strong></span>
                                     <div class="color-swatches">
-                                        <button class="color-swatch active" data-color="red" data-color-name="Red" data-img="/images/Joggers_red%20front.jpg" style="background:#cc1111" aria-label="Red"></button>
-                                        <button class="color-swatch white-swatch" data-color="white" data-color-name="White" data-img="/images/Joggers_white%20front.jpg" style="background:#ffffff" aria-label="White"></button>
+                                        <button class="color-swatch active" data-color="red" data-color-name="Red" data-img-front="/images/Joggers_red%20front.jpg" data-img-back="/images/Joggers_red%20back.jpg" style="background:#cc1111" aria-label="Red"></button>
+                                        <button class="color-swatch white-swatch" data-color="white" data-color-name="White" data-img-front="/images/Joggers_white%20front.jpg" data-img-back="/images/Joggers_white%20back.jpg" style="background:#ffffff" aria-label="White"></button>
                                     </div>
                                 </div>
                                 <div class="size-selector">
@@ -210,10 +220,15 @@ import '../styles/pages/shop.css';
 
                         <!-- Shorts -->
                         <div class="product-card" data-base-id="shorts">
-                            <div class="product-image-wrap">
-                                <img src="/images/Shorts_front.jpg"
-                                     alt="Shorts"
-                                     class="product-img">
+                            <div class="product-image-wrap has-slider">
+                                <img src="/images/Shorts_front.jpg" alt="Shorts front" class="product-img slide-img active">
+                                <img src="/images/Shorts_back.jpg" alt="Shorts back" class="product-img slide-img">
+                                <button class="slide-btn prev" aria-label="Previous image">&#8249;</button>
+                                <button class="slide-btn next" aria-label="Next image">&#8250;</button>
+                                <div class="slide-dots">
+                                    <button class="dot active" data-idx="0" aria-label="Front view"></button>
+                                    <button class="dot" data-idx="1" aria-label="Back view"></button>
+                                </div>
                             </div>
                             <div class="product-info">
                                 <h3>Shorts</h3>
@@ -313,10 +328,15 @@ import '../styles/pages/shop.css';
 
                         <!-- Varsity Jacket -->
                         <div class="product-card" data-base-id="varsity-jacket">
-                            <div class="product-image-wrap">
-                                <img src="/images/Varsity%20Jacket_front.jpg"
-                                     alt="Varsity Jacket"
-                                     class="product-img">
+                            <div class="product-image-wrap has-slider">
+                                <img src="/images/Varsity%20Jacket_front.jpg" alt="Varsity Jacket front" class="product-img slide-img active">
+                                <img src="/images/Varsity%20Jacket_back.jpg" alt="Varsity Jacket back" class="product-img slide-img">
+                                <button class="slide-btn prev" aria-label="Previous image">&#8249;</button>
+                                <button class="slide-btn next" aria-label="Next image">&#8250;</button>
+                                <div class="slide-dots">
+                                    <button class="dot active" data-idx="0" aria-label="Front view"></button>
+                                    <button class="dot" data-idx="1" aria-label="Back view"></button>
+                                </div>
                             </div>
                             <div class="product-info">
                                 <h3>Varsity Jacket</h3>
@@ -342,10 +362,15 @@ import '../styles/pages/shop.css';
 
                         <!-- Powerlifting Team Shirt (exclusive) -->
                         <div class="product-card product-card--exclusive">
-                            <div class="product-image-wrap">
-                                <img src="/images/powerlifting%20team%20shirt%20front.jpg"
-                                     alt="Powerlifting Team Shirt"
-                                     class="product-img">
+                            <div class="product-image-wrap has-slider">
+                                <img src="/images/powerlifting%20team%20shirt%20front.jpg" alt="Powerlifting Team Shirt front" class="product-img slide-img active">
+                                <img src="/images/powerlifting%20team%20shirt%20back.jpg" alt="Powerlifting Team Shirt back" class="product-img slide-img">
+                                <button class="slide-btn prev" aria-label="Previous image">&#8249;</button>
+                                <button class="slide-btn next" aria-label="Next image">&#8250;</button>
+                                <div class="slide-dots">
+                                    <button class="dot active" data-idx="0" aria-label="Front view"></button>
+                                    <button class="dot" data-idx="1" aria-label="Back view"></button>
+                                </div>
                             </div>
                             <div class="product-info">
                                 <h3>Powerlifting Team Shirt</h3>
@@ -481,9 +506,35 @@ import '../styles/pages/shop.css';
                     card.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
                     swatch.classList.add('active');
                     card.querySelector('.selected-color-name').textContent = swatch.dataset.colorName;
-                    const img = card.querySelector('.product-img');
-                    if (img) img.src = swatch.dataset.img;
+                    const wrap = card.querySelector('.product-image-wrap');
+                    if (wrap && wrap.classList.contains('has-slider')) {
+                        const slides = wrap.querySelectorAll('.slide-img');
+                        if (slides[0] && swatch.dataset.imgFront) slides[0].src = swatch.dataset.imgFront;
+                        if (slides[1] && swatch.dataset.imgBack) slides[1].src = swatch.dataset.imgBack;
+                    } else {
+                        const img = card.querySelector('.product-img');
+                        if (img) img.src = swatch.dataset.img;
+                    }
                 });
+            });
+
+            // Image sliders
+            document.querySelectorAll('.product-image-wrap.has-slider').forEach(wrap => {
+                const slides = wrap.querySelectorAll('.slide-img');
+                const dots = wrap.querySelectorAll('.dot');
+                let current = 0;
+
+                function goTo(idx) {
+                    slides[current].classList.remove('active');
+                    dots[current].classList.remove('active');
+                    current = idx;
+                    slides[current].classList.add('active');
+                    dots[current].classList.add('active');
+                }
+
+                wrap.querySelector('.prev').addEventListener('click', () => goTo(current === 0 ? slides.length - 1 : current - 1));
+                wrap.querySelector('.next').addEventListener('click', () => goTo(current === slides.length - 1 ? 0 : current + 1));
+                dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
             });
 
             // Add to cart buttons

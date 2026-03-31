@@ -23,6 +23,79 @@
     transform: scale(1.04);
 }
 
+/* ========== IMAGE SLIDER ========== */
+.has-slider {
+    position: relative;
+}
+
+.slide-img {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.slide-img.active {
+    display: block;
+}
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--spartacus-burgundy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 2;
+}
+
+.slide-btn.prev { left: 8px; }
+.slide-btn.next { right: 8px; }
+
+.has-slider:hover .slide-btn {
+    opacity: 1;
+}
+
+.slide-btn:hover {
+    background: white;
+}
+
+.slide-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.25);
+    cursor: pointer;
+    padding: 0;
+    transition: background var(--transition-fast);
+}
+
+.dot.active {
+    background: var(--spartacus-red);
+}
+
 /* ========== COLOR SELECTOR ========== */
 .color-selector {
     margin-bottom: var(--space-4);
