@@ -21,6 +21,30 @@ import '../styles/pages/strengthsports.css';
     </div>
 </section>
 
+<!-- Club Records Board — full-width dark section, right below hero -->
+<section class="records-section">
+    <div class="container">
+        <div class="records-header">
+            <h2 class="records-title">CLUB RECORDS</h2>
+            <p class="records-subtitle">All-time best lifts across every weight class — live from our records sheet</p>
+            <div class="records-tabs">
+                <button class="tab-btn active" id="tab-men" onclick="switchTab('men')">MEN</button>
+                <button class="tab-btn" id="tab-women" onclick="switchTab('women')">WOMEN</button>
+            </div>
+        </div>
+
+        <div id="records-loading" class="records-loading">
+            <div class="loading-spinner"></div>
+            <p>Loading records...</p>
+        </div>
+        <div id="records-men" class="records-pane active"></div>
+        <div id="records-women" class="records-pane"></div>
+        <div id="records-error" class="records-error" style="display:none">
+            <p>Could not load records. <a href="https://docs.google.com/spreadsheets/d/1qLWo0EAPXZNkr1Uf6s7Iw7CvtfTs1rQ04bHYhMfC_64/edit?gid=1877684052" target="_blank">View on Google Sheets</a></p>
+        </div>
+    </div>
+</section>
+
 <!-- Main Content -->
 <main>
     <div class="container">
@@ -179,6 +203,102 @@ import '../styles/pages/strengthsports.css';
 
     <!-- Footer -->
     <Footer />
+
+<script>
+(function () {
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1qLWo0EAPXZNkr1Uf6s7Iw7CvtfTs1rQ04bHYhMfC_64/export?format=csv&gid=1877684052';
+
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], cell = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === '"') { inQuotes = !inQuotes; }
+      else if (ch === ',' && !inQuotes) { row.push(cell.trim()); cell = ''; }
+      else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        row.push(cell.trim()); rows.push(row); row = []; cell = '';
+      } else { cell += ch; }
+    }
+    if (row.length || cell) { row.push(cell.trim()); rows.push(row); }
+    return rows;
+  }
+
+  function parseData(rows) {
+    const sections = {};
+    let sec = null, currentLift = null;
+    for (const row of rows) {
+      if (row[0] === 'MEN' || row[0] === 'WOMEN') {
+        sec = row[0]; sections[sec] = { headers: [], lifts: [] }; continue;
+      }
+      if (!sec) continue;
+      if (row[0] === 'Lift') { sections[sec].headers = row.slice(1); continue; }
+      if (row.every(c => !c)) continue;
+      if (row[0]) {
+        currentLift = { name: row[0], records: [row.slice(1)] };
+        sections[sec].lifts.push(currentLift);
+      } else if (currentLift) {
+        currentLift.records.push(row.slice(1));
+      }
+    }
+    return sections;
+  }
+
+  function splitCell(cell) {
+    if (!cell) return null;
+    const i = cell.lastIndexOf(' ');
+    return { name: cell.substring(0, i), weight: cell.substring(i + 1) };
+  }
+
+  function renderTable(sec) {
+    const { headers, lifts } = sec;
+    let html = '<div class="records-scroll"><table class="records-table"><thead><tr><th class="th-lift"><span class="axis-lift">LIFT</span><span class="axis-class">WEIGHT CLASS</span></th>';
+    for (const h of headers) html += `<th><span class="th-class">${h}</span><span class="th-unit">kg</span></th>`;
+    html += '</tr></thead><tbody>';
+
+    for (const { name, records } of lifts) {
+      html += `<tr><td class="td-lift">${name.toUpperCase()}</td>`;
+      for (let col = 0; col < headers.length; col++) {
+        const r1 = records[0] ? splitCell(records[0][col]) : null;
+        const r2 = records[1] ? splitCell(records[1][col]) : null;
+        html += '<td class="td-record">';
+        if (r1) html += `<div class="rec-entry gold"><span class="rec-name">${r1.name}</span><span class="rec-kg">${r1.weight}<small> kg</small></span></div>`;
+        if (r2) html += `<div class="rec-entry silver"><span class="rec-name">${r2.name}</span><span class="rec-kg">${r2.weight}<small> kg</small></span></div>`;
+        if (!r1 && !r2) html += '<span class="rec-dash">—</span>';
+        html += '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.records-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('records-' + tab).classList.add('active');
+  }
+  window.switchTab = switchTab;
+
+  async function init() {
+    try {
+      const res = await fetch(SHEET_URL);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = parseData(parseCSV(await res.text()));
+      document.getElementById('records-loading').style.display = 'none';
+      if (data.MEN) document.getElementById('records-men').innerHTML = renderTable(data.MEN);
+      if (data.WOMEN) document.getElementById('records-women').innerHTML = renderTable(data.WOMEN);
+    } catch (e) {
+      document.getElementById('records-loading').style.display = 'none';
+      document.getElementById('records-error').style.display = 'block';
+      console.error('Records load failed:', e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 
 </body>
 </html>
