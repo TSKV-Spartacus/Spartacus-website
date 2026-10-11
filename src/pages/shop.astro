@@ -555,6 +555,23 @@ import '../styles/pages/shop-product-polish.css';
                         || (gender === 'men' && !womenSpecific)
                         || (gender === 'women' && !menSpecific);
                     card.hidden = !show;
+
+                    // Match the shirt's fit selector to the selected collection.
+                    // In All gear, both fits are available; in Men/Women, only that fit is selectable.
+                    const fitSelect = card.querySelector('.fit-select');
+                    if (fitSelect) {
+                        const selectedFit = gender === 'men' ? "Men's" : gender === 'women' ? "Women's" : '';
+                        fitSelect.innerHTML = '<option value="">Select fit</option>';
+                        const fits = selectedFit ? [selectedFit] : ["Men's", "Women's"];
+                        fits.forEach(fit => {
+                            const option = document.createElement('option');
+                            option.value = fit;
+                            option.textContent = fit;
+                            fitSelect.appendChild(option);
+                        });
+                        fitSelect.value = selectedFit;
+                        fitSelect.classList.remove('size-error');
+                    }
                 });
 
                 if (filterNote) {
