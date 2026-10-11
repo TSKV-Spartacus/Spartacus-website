@@ -442,3 +442,62 @@
         border-radius: 14px 0 0 14px;
     }
 }
+
+
+/* Gender collection switcher */
+.shop-gender-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin: 1.6rem auto .65rem;
+}
+
+.shop-gender-tab {
+    min-width: 112px;
+    min-height: 44px;
+    padding: .7rem 1.25rem;
+    border: 1px solid rgba(68, 15, 28, .2);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--spartacus-burgundy);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.shop-gender-tab:hover {
+    border-color: var(--spartacus-red);
+    transform: translateY(-1px);
+}
+
+.shop-gender-tab.is-active {
+    border-color: var(--spartacus-burgundy);
+    background: var(--spartacus-burgundy);
+    color: #fff;
+    box-shadow: 0 5px 16px rgba(68, 15, 28, .16);
+}
+
+.shop-gender-tab:focus-visible {
+    outline: 3px solid var(--spartacus-red);
+    outline-offset: 3px;
+}
+
+.shop-filter-note {
+    min-height: 1.5em;
+    margin: 0;
+    color: #74656a;
+    font-size: .88rem;
+    text-align: center;
+}
+
+.product-card[hidden] {
+    display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shop-gender-tab {
+        transition: none;
+    }
+}
