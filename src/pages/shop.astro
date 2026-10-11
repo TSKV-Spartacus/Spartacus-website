@@ -17,10 +17,18 @@ import '../styles/pages/shop-product-polish.css';
     <Header />
 
         <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <h1>Spartacus Shop</h1>
-                <h2>Official Merchandise</h2>
+        <section class="hero shop-page-hero">
+            <div class="container shop-hero-content">
+                <span class="shop-eyebrow">THE OFFICIAL CLUB COLLECTION</span>
+                <h1>Wear Your Strength.</h1>
+                <h2>Official Spartacus Merchandise</h2>
+                <p>From training-day essentials to club classics, represent the Spartacus spirit wherever you lift.</p>
+                <a class="btn shop-hero-cta" href="#merchandise">Explore the collection <span aria-hidden="true">↓</span></a>
+                <div class="shop-hero-notes" aria-label="Shop benefits">
+                    <span><i class="fas fa-dumbbell" aria-hidden="true"></i> Made for lifters</span>
+                    <span><i class="fas fa-shield-halved" aria-hidden="true"></i> Official club gear</span>
+                    <span><i class="fas fa-credit-card" aria-hidden="true"></i> Secure Stripe checkout</span>
+                </div>
             </div>
         </section>
 
@@ -44,6 +52,7 @@ import '../styles/pages/shop-product-polish.css';
                 <p class="cart-empty">Your cart is empty.</p>
             </div>
             <div class="cart-footer">
+                <p id="checkout-status" class="checkout-status" role="status" aria-live="polite"></p>
                 <div class="cart-total">
                     <span>Total:</span>
                     <span id="cart-total-price">&euro;0.00</span>
@@ -57,9 +66,10 @@ import '../styles/pages/shop-product-polish.css';
         <!-- Main Content -->
         <main>
             <div class="container">
-                <section class="section">
-                    <h2 class="section-title centered-title">Our Merchandise</h2>
-                    <p class="shop-intro text-center">Rep Spartacus at the gym and beyond. Select your colour and place your order below.</p>
+                <section class="section" id="merchandise">
+                    <span class="shop-section-kicker">GEAR UP</span>
+                    <h2 class="section-title centered-title">The Spartacus Collection</h2>
+                    <p class="shop-intro text-center">Choose your piece, dial in your fit, and wear the club colours with pride.</p>
 
                     <div class="product-grid">
 
@@ -439,6 +449,7 @@ import '../styles/pages/shop-product-polish.css';
             const cartBadge = document.getElementById('cart-badge');
             const cartTotalPrice = document.getElementById('cart-total-price');
             const checkoutBtn = document.getElementById('checkout-btn');
+            const checkoutStatus = document.getElementById('checkout-status');
 
             function openCart() {
                 cartSidebar.classList.add('open');
@@ -621,7 +632,9 @@ import '../styles/pages/shop-product-polish.css';
                 if (cart.length === 0) return;
 
                 checkoutBtn.disabled = true;
-                checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                checkoutStatus.textContent = '';
+                checkoutStatus.classList.remove('is-error');
+                checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to Stripe…';
 
                 try {
                     const items = cart.map(item => ({
@@ -648,15 +661,17 @@ import '../styles/pages/shop-product-polish.css';
                         throw new Error('Server error (status ' + response.status + '): ' + text.substring(0, 200));
                     }
 
-                    if (data.url) {
-                        window.location.href = data.url;
-                    } else {
-                        throw new Error(data.error || 'Something went wrong');
+                    if (response.ok && typeof data.url === 'string' && data.url.startsWith('https://checkout.stripe.com/')) {
+                        window.location.assign(data.url);
+                        return;
                     }
+                    throw new Error(data.error || 'Stripe could not start checkout. Please try again.');
                 } catch (error) {
-                    alert(error.message || 'Failed to start checkout. Please try again.');
-                    checkoutBtn.disabled = false;
-                    checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Checkout';
+                    console.error('Checkout start failed:', error);
+                    checkoutStatus.textContent = error.message || 'Could not start secure checkout. Please try again.';
+                    checkoutStatus.classList.add('is-error');
+                    checkoutBtn.disabled = cart.length === 0;
+                    checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Try checkout again';
                 }
             });
 
