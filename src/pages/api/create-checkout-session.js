@@ -133,14 +133,46 @@ export async function POST({ request, locals }) {
   }
 
   try {
-    const body = await request.json();
-    const { items } = body;
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: 'Request body must be valid JSON.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
+    const { items } = body ?? {};
+    if (!Array.isArray(items) || items.length === 0) {
       return new Response(
         JSON.stringify({ error: 'Cart is empty' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    if (items.length > 50) {
+      return new Response(
+        JSON.stringify({ error: 'Too many different items in the cart.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate every item before contacting Stripe. Never silently drop invalid
+    // products or accept client-supplied prices/quantities.
+    for (const item of items) {
+      if (!item || typeof item.productId !== 'string' || !PRODUCTS[item.productId]) {
+        return new Response(
+          JSON.stringify({ error: 'Your cart contains an invalid product. Please refresh and try again.' }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+      if (!Number.isSafeInteger(item.quantity) || item.quantity < 1 || item.quantity > 20) {
+        return new Response(
+          JSON.stringify({ error: 'Each item quantity must be between 1 and 20.' }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     const origin = new URL(request.url).origin;
@@ -158,10 +190,17 @@ export async function POST({ request, locals }) {
       if (!product) continue;
 
       params.append(`line_items[${lineIndex}][price_data][currency]`, product.currency);
-      params.append(`line_items[${lineIndex}][price_data][product_data][name]`, item.displayName || product.name);
+      // Keep variant details from the shop UI only when they begin with the
+      // server-owned catalog name; otherwise use the trusted catalog name.
+      const displayName = typeof item.displayName === 'string'
+        && item.displayName.startsWith(product.name)
+        && item.displayName.length <= 120
+        ? item.displayName
+        : product.name;
+      params.append(`line_items[${lineIndex}][price_data][product_data][name]`, displayName);
       params.append(`line_items[${lineIndex}][price_data][product_data][description]`, product.description);
       params.append(`line_items[${lineIndex}][price_data][unit_amount]`, String(product.price));
-      params.append(`line_items[${lineIndex}][quantity]`, String(item.quantity || 1));
+      params.append(`line_items[${lineIndex}][quantity]`, String(item.quantity));
       lineIndex++;
     }
 

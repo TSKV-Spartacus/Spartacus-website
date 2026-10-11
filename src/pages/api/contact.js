@@ -1,71 +1,85 @@
 // src/pages/api/contact.js
+export const prerender = false;
 
-export async function POST({ request }) {
-  const formData = await request.json();
-  
-  // Validate the form data
-  if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        message: 'Please fill out all required fields',
-      }), 
-      { 
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-  }
-  
+const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8' };
+const reply = (status, payload) =>
+  new Response(JSON.stringify(payload), { status, headers: JSON_HEADERS });
+
+export async function POST({ request, locals }) {
+  let formData;
   try {
-    // Here you would typically send an email or store the contact request
-    // For Cloudflare, you might use:
-    
-    // Example: Send via email service (you'd need to set up environment variables)
-    // const emailResult = await fetch('https://api.sendgrid.com/v3/mail/send', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     personalizations: [{ to: [{ email: 'your-email@example.com' }] }],
-    //     from: { email: 'your-website@example.com' },
-    //     subject: `Contact Form: ${formData.subject}`,
-    //     content: [{ type: 'text/plain', value: `Name: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}` }],
-    //   }),
-    // });
-    
-    // For now, we'll just simulate a successful response
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Message received! We will get back to you soon.',
-      }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    
-  } catch (error) {
-    console.error('Error handling contact form:', error);
-    
-    return new Response(
-      JSON.stringify({
+    formData = await request.json();
+  } catch {
+    return reply(400, { success: false, message: 'Please submit a valid form.' });
+  }
+
+  if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
+    return reply(400, { success: false, message: 'Please submit a valid form.' });
+  }
+
+  const name = typeof formData.name === 'string' ? formData.name.trim() : '';
+  const email = typeof formData.email === 'string' ? formData.email.trim() : '';
+  const subject = typeof formData.subject === 'string' ? formData.subject.trim() : '';
+  const message = typeof formData.message === 'string' ? formData.message.trim() : '';
+
+  if (!name || !email || !subject || !message) {
+    return reply(400, { success: false, message: 'Please fill out all required fields.' });
+  }
+  if (name.length > 120 || email.length > 254 || subject.length > 100 || message.length > 5000) {
+    return reply(400, { success: false, message: 'One or more fields are too long.' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return reply(400, { success: false, message: 'Please enter a valid email address.' });
+  }
+
+  const env = locals?.runtime?.env ?? {};
+  const apiKey = env.RESEND_API_KEY;
+  const from = env.CONTACT_FROM_EMAIL;
+
+  // Never tell visitors their message was delivered unless an email provider
+  // confirms it. Configure a verified sender address in Cloudflare.
+  if (!apiKey || !from) {
+    console.error('Contact form is not configured: set RESEND_API_KEY and CONTACT_FROM_EMAIL.');
+    return reply(503, {
+      success: false,
+      message: 'The contact form is temporarily unavailable. Please email secretary@tskvspartacus.nl directly.'
+    });
+  }
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from,
+        to: ['secretary@tskvspartacus.nl'],
+        reply_to: email,
+        subject: `Website contact: ${subject}`,
+        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`
+      })
+    });
+
+    if (!response.ok) {
+      const details = await response.text();
+      console.error('Contact email provider returned an error:', response.status, details.slice(0, 500));
+      return reply(502, {
         success: false,
-        message: 'There was a server error. Please try again later.',
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
+        message: 'We could not send your message right now. Please try again later or email secretary@tskvspartacus.nl.'
+      });
+    }
+
+    return reply(200, {
+      success: true,
+      message: "Message sent successfully! We'll get back to you soon."
+    });
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    return reply(502, {
+      success: false,
+      message: 'We could not send your message right now. Please try again later or email secretary@tskvspartacus.nl.'
+    });
   }
 }
