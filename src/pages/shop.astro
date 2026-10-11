@@ -71,6 +71,13 @@ import '../styles/pages/shop-product-polish.css';
                     <h2 class="section-title centered-title">The Spartacus Collection</h2>
                     <p class="shop-intro text-center">Choose your piece, dial in your fit, and wear the club colours with pride.</p>
 
+                    <nav class="shop-gender-nav" aria-label="Shop by collection">
+                        <button type="button" class="shop-gender-tab is-active" data-shop-gender="all" aria-pressed="true">All gear</button>
+                        <button type="button" class="shop-gender-tab" data-shop-gender="men" aria-pressed="false">Men</button>
+                        <button type="button" class="shop-gender-tab" data-shop-gender="women" aria-pressed="false">Women</button>
+                    </nav>
+                    <p class="shop-filter-note" id="shop-filter-note" aria-live="polite">The full Spartacus collection, all in one place.</p>
+
                     <div class="product-grid">
 
                         <!-- Classic Powerlifting Shirt -->
@@ -526,6 +533,36 @@ import '../styles/pages/shop-product-polish.css';
                     });
                 });
             }
+
+            // Men / women collection filters. Shared essentials remain available in both collections.
+            const genderTabs = document.querySelectorAll('[data-shop-gender]');
+            const productCards = document.querySelectorAll('.product-card');
+            const filterNote = document.getElementById('shop-filter-note');
+
+            function setShopGender(gender) {
+                genderTabs.forEach(tab => {
+                    const active = tab.dataset.shopGender === gender;
+                    tab.classList.toggle('is-active', active);
+                    tab.setAttribute('aria-pressed', String(active));
+                });
+
+                productCards.forEach(card => {
+                    const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+                    const womenSpecific = /\\b(women|women's|ladies)\\b/.test(title);
+                    const show = gender === 'all' || gender === 'women' || !womenSpecific;
+                    card.hidden = !show;
+                });
+
+                if (filterNote) {
+                    filterNote.textContent = gender === 'men'
+                        ? 'Men’s collection — including versatile club essentials.'
+                        : gender === 'women'
+                            ? 'Women’s collection — including versatile club essentials.'
+                            : 'The full Spartacus collection, all in one place.';
+                }
+            }
+
+            genderTabs.forEach(tab => tab.addEventListener('click', () => setShopGender(tab.dataset.shopGender)));
 
             // Color swatch switching
             document.querySelectorAll('.color-swatch').forEach(swatch => {
