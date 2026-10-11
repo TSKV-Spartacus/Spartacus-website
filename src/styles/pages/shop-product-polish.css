@@ -255,3 +255,190 @@
         transform: none;
     }
 }
+
+
+/* Editorial shop hero and checkout feedback */
+.shop-page-hero {
+    min-height: min(690px, 78vh);
+    padding: clamp(5rem, 10vw, 8rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+    background:
+        radial-gradient(ellipse at 78% 22%, rgba(231, 197, 94, .17), transparent 28%),
+        radial-gradient(ellipse at 10% 90%, rgba(186, 19, 26, .32), transparent 42%),
+        linear-gradient(125deg, #240012 0%, #4a001e 48%, #790d22 100%);
+}
+
+.shop-page-hero::before {
+    background: linear-gradient(100deg, rgba(30, 0, 15, .28), rgba(55, 0, 27, .16) 55%, rgba(186, 19, 26, .12));
+}
+
+.shop-page-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .16;
+    background-image: linear-gradient(135deg, transparent 48%, rgba(255,255,255,.12) 49%, transparent 50%);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(90deg, transparent, #000 65%);
+}
+
+.shop-hero-content {
+    max-width: 1200px;
+}
+
+.shop-eyebrow,
+.shop-section-kicker {
+    display: inline-block;
+    margin-bottom: 1.1rem;
+    color: var(--spartacus-yellow);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+.shop-page-hero h1 {
+    max-width: 850px;
+    margin-bottom: .45rem;
+    font-size: clamp(3.2rem, 8vw, 6.4rem);
+    line-height: .98;
+    letter-spacing: .025em;
+}
+
+.shop-page-hero h2 {
+    margin-bottom: 1.1rem;
+    color: #f5d978;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: .015em;
+}
+
+.shop-page-hero p {
+    max-width: 570px;
+    margin-bottom: 1.8rem;
+    color: rgba(255,255,255,.84);
+    font-size: clamp(.98rem, 1.5vw, 1.12rem);
+    line-height: 1.8;
+}
+
+.shop-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 50px;
+    padding: .9rem 1.25rem;
+    border-radius: 8px;
+    background: var(--spartacus-yellow);
+    color: var(--spartacus-burgundy);
+    font-weight: 800;
+    box-shadow: 0 10px 28px rgba(0,0,0,.18);
+}
+
+.shop-hero-cta:hover {
+    background: #f3d879;
+    color: var(--spartacus-burgundy);
+    transform: translateY(-2px);
+}
+
+.shop-hero-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem 1.5rem;
+    margin-top: clamp(2.2rem, 5vw, 3.8rem);
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.shop-hero-notes span {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    color: rgba(255,255,255,.88);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.shop-hero-notes i {
+    color: var(--spartacus-yellow);
+}
+
+#merchandise {
+    scroll-margin-top: 2rem;
+}
+
+.shop-section-kicker {
+    display: block;
+    margin-bottom: .55rem;
+    color: var(--spartacus-red);
+    text-align: center;
+}
+
+.shop-intro {
+    font-size: .98rem;
+}
+
+.checkout-status {
+    display: none;
+    margin: 0 0 1rem;
+    padding: .75rem .85rem;
+    border-radius: 8px;
+    background: #f8eeee;
+    color: var(--spartacus-burgundy);
+    font-size: .82rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.checkout-status.is-error {
+    display: block;
+    border: 1px solid rgba(186, 19, 26, .22);
+    background: #fff3f3;
+    color: #8e1118;
+}
+
+.cart-sidebar {
+    border-radius: 16px 0 0 16px;
+    overflow: hidden;
+}
+
+.cart-header {
+    padding: 1.2rem 1.4rem;
+}
+
+.cart-footer {
+    padding: 1.25rem 1.4rem;
+}
+
+.checkout-btn {
+    min-height: 49px;
+    border-radius: 9px;
+    font-weight: 700;
+}
+
+.cart-floating-btn {
+    width: 62px;
+    height: 62px;
+    border: 3px solid rgba(255,255,255,.92);
+}
+
+@media (max-width: 576px) {
+    .shop-page-hero {
+        min-height: auto;
+        padding: 5rem 0 3rem;
+    }
+
+    .shop-page-hero h1 {
+        font-size: clamp(2.8rem, 14vw, 4rem);
+    }
+
+    .shop-hero-notes {
+        flex-direction: column;
+        gap: .7rem;
+    }
+
+    .cart-sidebar {
+        max-width: 100vw;
+        border-radius: 14px 0 0 14px;
+    }
+}
