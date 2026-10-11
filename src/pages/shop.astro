@@ -547,9 +547,13 @@ import '../styles/pages/shop-product-polish.css';
                 });
 
                 productCards.forEach(card => {
-                    const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
-                    const womenSpecific = /\\b(women|women's|ladies)\\b/.test(title);
-                    const show = gender === 'all' || gender === 'women' || !womenSpecific;
+                    const title = (card.querySelector('h3')?.textContent || '').trim().toLowerCase();
+                    const womenSpecific = title.includes('(women)') || title.includes("women's") || title.includes('ladies');
+                    const menSpecific = title.includes('(men)') || title.includes("men's");
+                    // Keep shared products visible in both collections, but never mix gender-specific items.
+                    const show = gender === 'all'
+                        || (gender === 'men' && !womenSpecific)
+                        || (gender === 'women' && !menSpecific);
                     card.hidden = !show;
                 });
 
